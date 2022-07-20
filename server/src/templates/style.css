@@ -1,0 +1,51 @@
+/*@import url('url');*/
+
+:root {
+  --navbd: #edc89d;
+  --bd: #eeeeee;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--bd);
+}
+nav {
+  background: var(--navbd);
+  margin: 0px;
+  
+
+  z-index: 10;
+}
+.move ul {
+    display: flex;
+      justify-content: center;
+      align-items: center;
+}
+.move li {
+  display: inline-block;
+
+  color:black;
+  padding: 5px 20px;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 1s linear;
+
+}
+
+
+.move li:hover
+{
+ color: white;
+ transform: rotate(360deg);
+}
+
+.move h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
