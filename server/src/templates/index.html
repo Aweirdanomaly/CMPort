@@ -9,7 +9,7 @@
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Crypto Portfolio Optimization</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../../../static/css/style.css" />
   </head>
   <body>
     <header>
@@ -39,18 +39,31 @@
       </p>
     </section>
 
-    <form>
+    <form method="POST">
       <label> List of tickers </label>
       <br />
-      <input type="text" placeholder="BTC,ETH,ADA" />
+      <input type="text" name="tickers" placeholder="BTC,ETH,ADA" />
       <br />
       <label> Days </label>
       <br />
-      <input type="text" placeholder="365" />
+      <input type="number" name="days" placeholder="365" />
       <br />
       <button type="submit">Run</button>
     </form>
-
+    <label> Investment Distribution </label>
+    {{final | safe}}
+    <br>
+    <label> Correlation Matrix </label>
+     {{corr | safe}}
+     <br>
+    <label> Covariance Matrix </label>
+     {{cov | safe}}
+     <br>
+    <label> Average daily returns </label>
+     {{mu_df | safe}}
+     <br>
+     Efficient Frontier
+     {{fig | safe}}
     <script src="index.js"></script>
     <a href="https://holderlab.io/landing-plans/">Other Paid Services</a>
 
