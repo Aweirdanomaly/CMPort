@@ -37,7 +37,6 @@ nav {
 
 }
 
-
 .move li:hover
 {
  color: white;
@@ -48,4 +47,10 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+
+#err>p {
+  color: #aa0000;
+  display: none;
 }

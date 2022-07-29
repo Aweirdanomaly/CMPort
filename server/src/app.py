@@ -3,8 +3,8 @@ import os
 import time
 import numpy as np
 import pandas as pd
+import json
 
-from io import BytesIO
 import matplotlib.pyplot as plt, mpld3
 
 from prices import main
@@ -40,14 +40,53 @@ def index():
         mu_df["Average Price"]=prices.mean()
         mu_df.rename(columns={0:"Average daily return"},inplace=True)
         
+        
         return make_response(render_template("index.html",
         corr=returns.corr().to_html(),
         cov=returns.cov().to_html(),
         fig=mpld3.fig_to_html(fig),
+        show=True,
         final=final.to_html(index=False),
         mu_df=mu_df.to_html()))
       except:
+        print(request.form)
+        print("failed")
         return "Something messed up"
+      
+@app.route('/test', methods=['GET', 'POST'])
+def test():
+  errors={}
+  try:
+    print("zero")
+    print(len(request.form["tickers"]), request.form["tickers"])
+    prices= main(request.form["tickers"], request.form["days"])
+    if type(prices) is dict:
+      print("error returned", prices)
+      errors.update(prices)
+      raise ValueError('getting prices failed')
+    print("one")
+    #errors.append("one only")
+    returns = np.log(prices).diff().dropna()
+    print("one and a half")
+    fig, final =draw_graph(returns)
+    print("two")
+    
+    
+    mu_df=returns.mean().to_frame()
+    mu_df["Average Price"]=prices.mean()
+    mu_df.rename(columns={0:"Average daily return"},inplace=True)
+    
+    return json.dumps({"corr":returns.corr().to_html(),
+    "cov":returns.cov().to_html(),
+    "fig":mpld3.fig_to_html(fig),
+    "final":final.to_html(index=False),
+    "mu_df":mu_df.to_html()})
+  except:
+    print(request.form)
+    print(errors)
+    return json.dumps(errors)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))

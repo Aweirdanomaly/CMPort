@@ -43,13 +43,30 @@ def parse_input(user_input):
 
 def main(tickers, days):
     user_input=tickers
+    print("0000")
     make_IDList()
-    ids=parse_input(user_input)
-    ####Get rid of nones (aka tickers with no id found)
-    ids=list(filter(None, ids))
+    print("111111")
+    try:
+        ids=parse_input(user_input)
+        
+        print("22222")
+        ####Get rid of nones (aka tickers with no id found)
+        
+        ids=list(filter(None, ids))
+        if len(ids)==1:
+            print("exited")
+            return ({"1": "Only one crypto was provided"})
+    except:
+        #add to local error dict how ids did not parse
+        print("Unexpected crash at ids making")
+    print("33333:",ids)
     ####
-    prices=get_data(ids, int(days))
+    try:
+        prices=get_data(ids, int(days))
+    except:
+        return {"2": "Data for that many days does not exist"}
     #print(prices)
+    print("4444")
     return prices
 
 
